@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const User = require("../models/User");
-const { namePattern, phoneNumberPattern, emailPattern } = require('../config/patterns');
+const { phoneNumberPattern, emailPattern } = require('../config/patterns');
 
 const checkConstraints = (user) => {
     // check if username has any space
@@ -15,9 +15,9 @@ const checkConstraints = (user) => {
     if (user.password?.length < 6)
         return false;
 
-    // check if fullName contains any number
-    if (user.fullName && !namePattern.test(user.fullName))
-        return false;
+    // // check if fullName contains any number
+    // if (user.fullName && !namePattern.test(user.fullName))
+    //     return false;
 
     // check if phone does not contain exactly 10 number
     if (user.phone && !phoneNumberPattern.test(user.phone))
