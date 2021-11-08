@@ -120,14 +120,17 @@ class UsersController {
 
     // [PUT] /api/user/change-password
     async changePassword(req, res, next) {
-        const { username, newPassword } = req.body;
+        const { username, currentPassword, newPassword } = req.body;
 
         try {
             const existingUser = await User.findOne({ username });
             if (!existingUser)
-                return res.status(400).json({ message: 'User does not exist' });
+                return res.status(400).json({ message: 'User doest not exist' });
+            let isCorrectPassword = await bcrypt.compare(currentPassword, existingUser.password);
+            if (!isCorrectPassword)
+                return res.status(400).json({ message: 'Wrong password' });
 
-            const isCorrectPassword = newPassword.length >= 6;
+            isCorrectPassword = newPassword.length >= 6;
             if (!isCorrectPassword)
                 return res.status(400).json({ message: 'New password must be at least 6 characters' });
 
