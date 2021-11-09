@@ -71,7 +71,7 @@ class CoursesController {
             page = parseInt(page);
             perPage = parseInt(perPage);
 
-            const totalPages = Math.round(result.length / perPage) + 1;
+            const totalPages = Math.floor(result.length / perPage) + 1;
             if (page > totalPages)
                 return res.status(200).json({
                     message: 'Search successfully',
@@ -79,6 +79,7 @@ class CoursesController {
                         "currentPage": page,
                         "totalPages": totalPages,
                         "totalItems": result.length,
+                        "perPage": perPage,
                         "items": []
                     }
                 });
@@ -89,6 +90,7 @@ class CoursesController {
                         "currentPage": page,
                         "totalPages": totalPages,
                         "totalItems": result.length,
+                        "perPage": perPage,
                         "items": result.slice(
                             (page - 1) * perPage,
                             (page - 1) * perPage + perPage
