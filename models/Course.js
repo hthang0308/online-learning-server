@@ -36,7 +36,7 @@ const CourseSchema = new Schema({
 
     picture: {
         type: String,
-        default: ""
+        default: "#"
     },
 
     time: {
@@ -47,6 +47,11 @@ const CourseSchema = new Schema({
     day: {
         type: Array,
         require: true
+    },
+
+    zoomLink: {
+        type: String,
+        default: "#"
     },
 
     startingDate: {

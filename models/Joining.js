@@ -14,7 +14,7 @@ const JoiningSchema = new Schema({
 
     time: {
         type: Date,
-        require: true
+        // require: true
     }
 }, { versionKey: false });
 

@@ -54,7 +54,8 @@ class UsersController {
 
             const accessToken = jwt.sign(existingUser.username, process.env.ACCESS_TOKEN_SECRET);
             res.status(200).json({
-                message: 'Login successfully', content: {
+                message: 'Login successfully',
+                content: {
                     ...existingUser._doc, 'accessToken': accessToken
                 }
             });
@@ -82,7 +83,8 @@ class UsersController {
 
             const accessToken = jwt.sign(result.username, process.env.ACCESS_TOKEN_SECRET);
             res.status(200).json({
-                message: 'Signup successfully', content: {
+                message: 'Signup successfully',
+                content: {
                     ...result._doc, 'accessToken': accessToken
                 }
             });
@@ -107,9 +109,15 @@ class UsersController {
                 { new: true }
             );
 
+            if (!updatedUser)
+                return res.status(400).json({ message: "User dose not exist" });
+
+
             const accessToken = jwt.sign(updatedUser.username, process.env.ACCESS_TOKEN_SECRET);
+
             res.status(200).json({
-                message: 'Change info successfully', content: {
+                message: 'Change info successfully',
+                content: {
                     ...updatedUser._doc, 'accessToken': accessToken
                 }
             });
@@ -145,7 +153,8 @@ class UsersController {
             const accessToken = jwt.sign(updatedUser.username, process.env.ACCESS_TOKEN_SECRET);
 
             res.status(200).json({
-                message: 'Change password successfully', content: {
+                message: 'Change password successfully',
+                content: {
                     ...updatedUser._doc, 'accessToken': accessToken
                 }
             });
@@ -172,7 +181,8 @@ class UsersController {
 
             const accessToken = jwt.sign(updatedUser.username, process.env.ACCESS_TOKEN_SECRET);
             res.status(200).json({
-                message: 'Change role successfully', content: {
+                message: 'Change role successfully',
+                content: {
                     ...updatedUser._doc, 'accessToken': accessToken
                 }
             });
@@ -203,7 +213,8 @@ class UsersController {
 
             const accessToken = jwt.sign(updatedUser.username, process.env.ACCESS_TOKEN_SECRET);
             res.status(200).json({
-                message: 'Top up successfully', content: {
+                message: 'Top up successfully',
+                content: {
                     ...updatedUser._doc, 'accessToken': accessToken
                 }
             });

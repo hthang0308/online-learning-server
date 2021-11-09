@@ -5,17 +5,12 @@ const coursesController = require('../controllers/CourseController');
 
 const verifyToken = require('../middleware/auth');
 
-const Course = require("../models/Course");
-
-// router.post('/courses/create', coursesController.create);
-// router.put('/courses/:course_name/update', verifyToken, coursesController.update);
-// router.delete('/courses/:course_name/delete', verifyToken, coursesController.delete);
-// router.get('/courses/:course_name', coursesController.detail);
-// router.get('/courses', ensureAuth, coursesController.index);
-router.get('/courses', verifyToken, (req, res, next) => {
-    Course.find({})
-        .then(courses => res.json(courses))
-        .catch(next);
-});
+router.delete('/delete', verifyToken, coursesController.delete);
+router.put('/update', verifyToken, coursesController.update);
+router.put('/update-zoom-link', verifyToken, coursesController.updateZoomLink);
+router.put('/rate', verifyToken, coursesController.rate);
+router.post('/create', coursesController.create);
+router.get('/my-courses', coursesController.getMyCourses);
+router.get('/search', coursesController.search);
 
 module.exports = router;
