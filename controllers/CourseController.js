@@ -71,7 +71,7 @@ class CoursesController {
             page = parseInt(page);
             perPage = parseInt(perPage);
 
-            const totalPages = Math.floor(result.length / perPage) + 1;
+            const totalPages = Math.round(result.length / perPage);
             if (page > totalPages)
                 return res.status(200).json({
                     message: 'Search successfully',
