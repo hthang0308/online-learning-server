@@ -12,9 +12,14 @@ const JoiningSchema = new Schema({
         require: true
     },
 
+    date: {
+        type: String,
+        require: true
+    },
+
     time: {
-        type: Date,
-        // require: true
+        type: String,
+        require: true
     }
 }, { versionKey: false });
 
