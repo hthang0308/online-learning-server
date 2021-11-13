@@ -49,16 +49,15 @@ class CoursesController {
             let result = []
             if (q) {
                 const queryRegex = new RegExp(q, 'i')
-                const courseName = await Course.find({ courseName: queryRegex });
-                const description = await Course.find({ description: queryRegex });
-                const slug = await Course.find({ slug: queryRegex });
-
-                result = courseName.concat(description, slug);
-                result = result.filter((thing, index, self) =>
-                    index === self.findIndex((t) => (
-                        t.slug == thing.slug
-                    ))
-                )
+                result = await Course.find({
+                    $or: [{
+                        courseName: queryRegex
+                    }, {
+                        description: queryRegex
+                    }, {
+                        slug: queryRegex
+                    }]
+                });
             }
             else
                 result = await Course.find({});
@@ -71,7 +70,7 @@ class CoursesController {
             page = parseInt(page);
             perPage = parseInt(perPage);
 
-            const totalPages = Math.ceil(result.length / perPage);
+            const totalPages = Math.ceil(result.length / perPage) || 0;
             if (page > totalPages)
                 return res.status(200).json({
                     message: 'Search successfully',

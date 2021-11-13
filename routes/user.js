@@ -4,6 +4,7 @@ const router = express.Router();
 const usersController = require('../controllers/UserController');
 const verifyToken = require('../middleware/auth');
 
+router.post('/google-login', usersController.googleLogin);
 router.post('/login', usersController.login);
 router.post('/signup', usersController.signup);
 router.put('/change-info', verifyToken, usersController.changeInfo);

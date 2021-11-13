@@ -15,10 +15,6 @@ const checkConstraints = (user) => {
     if (user.password?.length < 6)
         return false;
 
-    // // check if fullName contains any number
-    // if (user.fullName && !namePattern.test(user.fullName))
-    //     return false;
-
     // check if phone does not contain exactly 10 number
     if (user.phone && !phoneNumberPattern.test(user.phone))
         return false;
@@ -39,6 +35,50 @@ const checkConstraints = (user) => {
 };
 
 class UsersController {
+    // [POST] /api/google-login
+    async googleLogin(req, res, next) {
+        const { username, password } = req.body;
+
+        try {
+            const existingUser = await User.findOne({ username });
+            if (!existingUser)
+                try {
+                    if (!checkConstraints(req.body))
+                        return res.status(400).json({ message: "Given user's information is invalid" });
+
+                    const hashedPassword = await bcrypt.hash(password, 10);
+
+                    const result = await User.create({ ...req.body, password: hashedPassword });
+
+                    const accessToken = jwt.sign(result.username, process.env.ACCESS_TOKEN_SECRET);
+                    res.status(200).json({
+                        message: 'Signup with google successfully',
+                        content: {
+                            ...result._doc, 'accessToken': accessToken
+                        }
+                    });
+
+                } catch (err) {
+                    res.status(500).json({ message: "Server error" })
+                }
+
+            const isCorrectPassword = await bcrypt.compare(password, existingUser.password);
+            if (!isCorrectPassword)
+                return res.status(400).json({ message: 'Invalid password' });
+
+            const accessToken = jwt.sign(existingUser.username, process.env.ACCESS_TOKEN_SECRET);
+            res.status(200).json({
+                message: 'Login with google successfully',
+                content: {
+                    ...existingUser._doc, 'accessToken': accessToken
+                }
+            });
+
+        } catch (err) {
+            res.status(500).json({ message: "Server error" })
+        }
+    };
+
     // [POST] /api/login
     async login(req, res, next) {
         const { username, password } = req.body;

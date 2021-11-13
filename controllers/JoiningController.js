@@ -6,10 +6,10 @@ const User = require("../models/User");
 const Enrolling = require("../models/Enrolling");
 
 const GMT = 7 * 60 * 60 * 1000;
-const weekday = ["#", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const weekday = ["#", "mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 const getWeekdayNumber = (daysInWeek) => {
-    return daysInWeek.map(day => weekday.indexOf(day))
+    return daysInWeek.map(day => weekday.indexOf(day.toLowerCase()))
 }
 
 const makeDateTimeString = (time) => {
@@ -61,7 +61,6 @@ const isValidTime = (startingDate, endingDate, daysInWeek, startingTime) => {
 
     return true;
 }
-
 class JoiningController {
     // [POST] /api/joining/join
     async join(req, res, next) {
