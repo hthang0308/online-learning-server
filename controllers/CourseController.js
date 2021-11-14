@@ -17,13 +17,13 @@ const checkConstraints = async (course) => {
         role: "tutor",
       });
       if (!temp) return false;
-    } catch (err) {}
+    } catch (err) { }
 
   if (course.rating)
     try {
       const temp = await User.findOne({ username: course.rating.username });
       if (!temp) return false;
-    } catch (err) {}
+    } catch (err) { }
 
   if (course.rating && (course.rating.star < 0 || course.rating.star > 5))
     return false;
@@ -245,31 +245,6 @@ class CoursesController {
       message: "Create zoom link successfully",
       content: updatedCourse._doc,
     });
-  }
-  catch(err) {
-    res.status(500).json({ message: "Server error" });
-  }
-
-  // [PUT] /api/courses/update-zoom-link
-  async updateZoomLink(req, res, next) {
-    const { slug, zoomLink } = req.body;
-
-    try {
-      const updatedCourse = await Course.findOneAndUpdate(
-        { slug },
-        { zoomLink },
-        { new: true }
-      );
-      if (!updatedCourse)
-        return res.status(400).json({ message: "Course does not exist" });
-
-      res.status(200).json({
-        message: "Update zoom link successfully",
-        content: updatedCourse._doc,
-      });
-    } catch (err) {
-      res.status(500).json({ message: "Server error" });
-    }
   }
 
   // [DELETE] /api/courses/delete

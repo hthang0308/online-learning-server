@@ -19,9 +19,6 @@ app.use(cors({ origin: "*" }));
 // routes
 routes(app);
 
-//get the form
-app.get("/", (req, res) => res.send(req.body));
-
 app.listen(port, () =>
   console.log(`Server listening at http://localhost:${port}`)
 );
