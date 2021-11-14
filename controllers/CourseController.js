@@ -208,16 +208,19 @@ class CoursesController {
     };
     const token = jwt.sign(payload, process.env.API_ZOOM_SECRET_CODE);
     const { slug } = req.body;
-    var email = "19120129@student.hcmus.edu.vn";
+    const courseDetail = await Course.findOne({ slug: req.body.slug });
+    var email = "chuphongzoom123@gmail.com"; //Host Default
     var options = {
       method: "POST",
       uri: "https://api.zoom.us/v2/users/" + email + "/meetings",
       body: {
-        topic: "test create meeting",
+        topic: courseDetail.courseName,
         type: 1,
         settings: {
           host_video: "true",
           participant_video: "true",
+          join_before_host: "true",
+          use_pmi: "true", //Tao nhieu meeting
         },
       },
       auth: {
@@ -230,18 +233,16 @@ class CoursesController {
       json: true, //Parse the JSON string in the response
     };
     const response = await rp(options);
-    console.log("response: ", response);
-    const zoomLink = response.join_url;
     const updatedCourse = await Course.findOneAndUpdate(
       { slug },
-      { zoomLink },
+      { zoomLink: response.join_url, zoomHostLink: response.start_url },
       { new: true }
     );
     if (!updatedCourse)
       return res.status(400).json({ message: "Course does not exist" });
 
     res.status(200).json({
-      message: "Update zoom link successfully",
+      message: "Create zoom link successfully",
       content: updatedCourse._doc,
     });
   }
