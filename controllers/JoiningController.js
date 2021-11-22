@@ -124,7 +124,7 @@ class JoiningController {
 
     // [GET] /api/joining/my-joining
     async getHistory(req, res, next) {
-        const { username } = req.body;
+        const { username } = req.query;
 
         try {
             const history = await Joining.find({ username });

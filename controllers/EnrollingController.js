@@ -52,7 +52,7 @@ class EnrollingController {
 
     // [GET] /api/enrolling/my-enrollment
     async getMyEnrollment(req, res, next) {
-        const { username } = req.body;
+        const { username } = req.query;
 
         try {
             const courses = await Enrolling.find({ username });
