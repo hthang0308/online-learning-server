@@ -88,8 +88,7 @@ class UsersController {
             if (!existingUser)
                 return res.status(404).json({ message: 'User does not exist' });
 
-            let isCorrectPassword = await bcrypt.compare(password, existingUser.password);
-            isCorrectPassword = isCorrectPassword | (password == existingUser.password);
+            const isCorrectPassword = await bcrypt.compare(password, existingUser.password);
             if (!isCorrectPassword)
                 return res.status(400).json({ message: 'Invalid password' });
 
