@@ -10,6 +10,7 @@ router.put("/update", verifyToken, coursesController.update);
 router.put("/rate", verifyToken, coursesController.rate);
 router.post("/create", coursesController.create);
 router.get("/my-courses", coursesController.getMyCourses);
+router.get("/detail", coursesController.getCourseDetail);
 router.get("/search", coursesController.search);
 
 module.exports = router;

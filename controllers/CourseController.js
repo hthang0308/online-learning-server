@@ -261,6 +261,24 @@ class CoursesController {
       res.status(500).json({ message: "Server error" });
     }
   }
+
+  // [GET] /api/courses/detail
+  async getCourseDetail(req, res, next) {
+    const { course } = req.query;
+
+    try {
+      const existingCourse = await Course.findOne({ slug: course });
+      if (!existingCourse)
+        return res.status(400).json({ message: "Course does not exist" });
+
+      return res.status(200).json({
+        message: "Get course detail successfully",
+        content: existingCourse
+      });
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
+  }
 }
 
 module.exports = new CoursesController();
