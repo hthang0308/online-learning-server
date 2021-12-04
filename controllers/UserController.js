@@ -10,6 +10,8 @@ const checkConstraints = (user) => {
     // check if username has any space
     if (user.username?.split(' ').length > 1)
         return false;
+    if (user.username && user.username.length == 0)
+        return false;
 
     // check if password length < 6
     if (user.password?.length < 6)

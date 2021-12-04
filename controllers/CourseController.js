@@ -7,6 +7,8 @@ const rp = require("request-promise");
 
 const checkConstraints = async (course) => {
   if (course.slug?.split(" ").length > 1) return false;
+  if (course.slug && course.slug.length == 0)
+    return false;
 
   if (course.fee && course.fee < 0) return false;
 
